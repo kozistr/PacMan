@@ -360,27 +360,35 @@ void GoOneBlock(int i) {
 Clear the stage
 *********************************/
 void EnemyDraw(MapInfo m) {
+	/* If enemy nerver generates before, ... */
 	if (map.eFlag == 0) {
 		int blank[COL*ROW][2] = { 0, }, c = 0;
+
 		for (int i = 5; i < COL - 1; i++) {
 			for (int j = 5; j < ROW - 1; j++) {
+				/* Get Cord where enemy can be spwaned */
 				if (Map[m.nStage][i][j] == 0) {
+					/* Save Cord */
 					blank[c][0] = i;
 					blank[c][1] = j;
 					++c;
 				}
 			}
 		}
+
 		for (int z = 0; z < m.nEnemy; z++) {
 			srand((unsigned)GetTickCount()); Sleep(11);
 			int r = rand() % c;
 
 			E[z].xPos = blank[r][1];
 			E[z].yPos = blank[r][0];
+
+			/* Enemy */
 			Map[m.nStage][E[z].yPos][E[z].xPos] = 4;
 		}
+
 		++map.eFlag;
-		UpdateScreen(map.nStage);
+		//UpdateScreen(map.nStage);
 	}
 	//	for (int i = 0; i < map.nEnemy; i++)
 	//		GoOneBlock(i);
@@ -471,9 +479,6 @@ void IsCollision(int yPos, int xPos, int stage) {
 
 	/* Make Current Position to Player Block */
 	Map[stage][map.pPos.yPos][map.pPos.xPos] = 3;
-
-	/* Update Screen */
-	UpdateScreen(map.nStage);
 }
 
 /***************************************************************
@@ -574,7 +579,6 @@ void Release() {
 
 void main(int argc, char *argv[]) {
 start:
-
 	/* Initializing */
 	Initializing(0);
 
@@ -638,6 +642,9 @@ start:
 			if (_kbhit()) break;
 			EnemyDraw(map);
 		}
+
+		/* Update Screen */
+		UpdateScreen(map.nStage);
 	}
 
 	/* Release All Settings */
