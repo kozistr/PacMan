@@ -194,28 +194,21 @@ void UpdateScreen(int stage) {
 		for (int j = 0; j < ROW; j++) {
 			switch (Map[stage][i][j]) {
 			case 0:
-				Putxy(j * 2, i, ".");
-				break;
+				Putxy(j * 2, i, "."); break;
 			case 1:
-				SetColor(14, 0); Putxy(j * 2, i, "■");
-				break;
+				SetColor(14, 0); Putxy(j * 2, i, "■"); break;
 			case 2:
-				SetColor(6, 0); Putxy(j * 2, i, "◎");
-				break;
+				SetColor(6, 0); Putxy(j * 2, i, "◎"); break;
 			case 3:
 				if (map.pPos.super == 1) SetColor(9, 0);
 				else                     SetColor(8, 0);
-				Putxy(j * 2, i, "★");
-				break;
+				Putxy(j * 2, i, "★"); break;
 			case 4:
-				SetColor(9, 0); Putxy(j * 2, i, "◆");
-				break;
+				SetColor(9, 0); Putxy(j * 2, i, "◆"); break;
 			case 5:
-				SetColor(12, 0); Putxy(j * 2, i, "♥");
-				break;
+				SetColor(12, 0); Putxy(j * 2, i, "♥"); break;
 			case 6: 
-				Putxy(j * 2, i, " "); 
-				break;
+				Putxy(j * 2, i, " ");  break;
 			default: break;
 			}
 		}
@@ -392,6 +385,8 @@ void EnemyDraw(MapInfo m) {
 	}
 	//	for (int i = 0; i < map.nEnemy; i++)
 	//		GoOneBlock(i);
+
+	/* Update Screen */
 	UpdateScreen(map.nStage);
 }
 
@@ -479,6 +474,9 @@ void IsCollision(int yPos, int xPos, int stage) {
 
 	/* Make Current Position to Player Block */
 	Map[stage][map.pPos.yPos][map.pPos.xPos] = 3;
+
+	/* Update Screen */
+	UpdateScreen(map.nStage);
 }
 
 /***************************************************************
@@ -580,7 +578,7 @@ void Release() {
 void main(int argc, char *argv[]) {
 start:
 	/* Initializing */
-	Initializing(0);
+	Initializing(1);
 
 	/* Intro Screen */
 	InitScreen();
@@ -639,12 +637,10 @@ start:
 		}
 
 		for (;;) {
+			/* Move All of enemies till i input any key */
 			if (_kbhit()) break;
 			EnemyDraw(map);
 		}
-
-		/* Update Screen */
-		UpdateScreen(map.nStage);
 	}
 
 	/* Release All Settings */
